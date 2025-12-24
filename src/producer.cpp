@@ -1,5 +1,6 @@
 #include "cuda_ipc_common.h"
 #include "ipc_socket.h"
+#include "cuda_ro_wrapper.h"
 #include <vector>
 #include <unistd.h>
 
@@ -62,11 +63,11 @@ int main() {
     copyHostToDevice(dptr, h_buffer.data(), buffer_size);
     printf("Copied test data to GPU\n");
 
-    // 12. Export as file descriptor
+    // 12. Export as file descriptor (read-only)
     int fd;
     CHECK_CUDA(cuMemExportToShareableHandle((void*)&fd, alloc_handle,
-        CU_MEM_HANDLE_TYPE_POSIX_FILE_DESCRIPTOR, 0));
-    printf("Exported allocation as FD: %d\n", fd);
+        CU_MEM_HANDLE_TYPE_POSIX_FILE_DESCRIPTOR, CU_MEM_EXPORT_FLAGS_READONLY));
+    printf("Exported allocation as FD: %d (read-only)\n", fd);
 
     // 13. Setup IPC socket
     IPCSocket ipc_sock;

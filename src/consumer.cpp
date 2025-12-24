@@ -53,6 +53,7 @@ int main() {
     accessDesc.location.type = CU_MEM_LOCATION_TYPE_DEVICE;
     accessDesc.location.id = device;
     accessDesc.flags = CU_MEM_ACCESS_FLAGS_PROT_READWRITE;
+    // accessDesc.flags = CU_MEM_ACCESS_FLAGS_PROT_READ;
     CHECK_CUDA(cuMemSetAccess(consumer_dptr, aligned_size, &accessDesc, 1));
     printf("Set read/write access permissions\n");
 
